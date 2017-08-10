@@ -1,19 +1,32 @@
 const fs = require('fs');
 const net = require('net');
+const path = require('path');
 
-let client = net.createConnection({ port: 3001 }, () => {
-  //'connect' listener
-  console.log('connected to server!');
-  // fs.createReadStream('./IMG_2270.JPG').pipe(client);
-  let filename = './IMG_2270.JPG';
+let args = process.argv.slice(2);
+let [str, file] = args;
+let [host, port] = str.split(':');
+let addr = { port: 3001 };
+
+if (host) addr.host = host;
+if (port) addr.port = port;
+
+let filename = require.resolve(path.join(process.cwd(), file));
+let client = net.createConnection(addr, (...args) => {
+  console.log('server connected.', args);
   client.write(filename, () => {
+    console.log('prepare to send [%s].', filename);
     let buf = fs.readFileSync(filename);
     client.write(buf, () => {
       client.end();
+      console.log('sent over.')
     });
   })
 });
 
 client.on('end', () => {
   console.log('disconnected');
+});
+
+client.on('error', (error) => {
+  console.log('send error', error);
 });

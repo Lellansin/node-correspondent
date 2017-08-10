@@ -2,16 +2,24 @@ const fs = require('fs');
 const net = require('net');
 const path = require('path');
 
-const client = net.createConnection({ port: 3000 }, () => {
-  //'connect' listener
-  console.log('connected to server!');
+let args = process.argv.slice(2);
+let [host, port] = args;
+let addr = { port: 3000 };
+
+if (host) addr.host = host;
+if (port) addr.port = port;
+
+const client = net.createConnection(addr, () => {
+  console.log('server connected.');
   let fileName = './tmp';
   client.once('data', (name) => {
     fileName = './' + path.basename(name.toString());
-	client.pipe(fs.createWriteStream(fileName));
-	throw new Error();
+    console.log('receiving file [%s]', fileName);
+    client.pipe(fs.createWriteStream(fileName))
+      .on('end', () => {
+      	console.log('File [%s] written.', fileName);
+      });
   });
-  // setTimeout(() => {}, 2000);
 });
 
 client.on('end', () => {
