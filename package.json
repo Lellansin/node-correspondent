@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Lellansin/node-correspondent-server#readme",
   "dependencies": {
-    "axon": "^2.0.3"
+    "axon": "^2.0.3",
+    "log4js": "^2.3.3"
   }
 }
