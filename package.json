@@ -1,21 +1,23 @@
 {
-  "name": "correspondent-server",
-  "version": "0.0.0",
+  "name": "correspondent",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js",
+    "deamon": "pm2 start ./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lellansin/node-correspondent-server.git"
+    "url": "git+https://github.com/Lellansin/node-correspondent.git"
   },
   "author": "Lellansin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Lellansin/node-correspondent-server/issues"
+    "url": "https://github.com/Lellansin/node-correspondent/issues"
   },
-  "homepage": "https://github.com/Lellansin/node-correspondent-server#readme",
+  "homepage": "https://github.com/Lellansin/node-correspondent#readme",
   "dependencies": {
     "axon": "^2.0.3",
     "log4js": "^2.3.3"

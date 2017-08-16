@@ -4,6 +4,9 @@ const net = require('net');
 const log4js = require('log4js');
 const receiver = new Map();
 
+const args = process.argv.slice(2);
+const PORT_RECV = args[0] || 3000;
+const PORT_SEND = args[1] || 3001;
 const logger = log4js.getLogger();
 logger.level = 'debug';
 
@@ -19,8 +22,8 @@ const recvServer = net.createServer((sock) => {
   receiver.set(id, sock);
 }).on('error', (err) => {
   logger.error(err);
-}).listen(3000, () => {
-  logger.info('recvServer bound');
+}).listen(PORT_RECV, () => {
+  logger.info(`recvServer bound on ${PORT_RECV}`);
 });
 
 const pushServer = net.createServer((sender) => {
@@ -44,6 +47,6 @@ const pushServer = net.createServer((sender) => {
   }
 }).on('error', (err) => {
   logger.error(err);
-}).listen(3001, () => {
-  logger.info('pushServer bound');
+}).listen(PORT_SEND, () => {
+  logger.info(`pushServer bound on ${PORT_SEND}`);
 });
